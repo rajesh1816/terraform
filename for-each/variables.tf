@@ -55,11 +55,22 @@ variable "environment" {
     default = "dev"
 }
 
-variable "instances" {  
-    default = [ "mongodb" , "mysql" , "frontend" ]
-  
+/* variable "instances" {  
+    type = map(string)
+    default = {
+        mongodb = "t2.micro"
+        mysql = "t2.micro"
+        frontend = "t2.small" #each keyword is assigned for every iteration you will get each.key and each.value
+    }
 }
+ */
 
+
+ variable "instances" {
+    type = set(string)
+    default = ["mongodb", "mysql", "frontend"]
+   
+ }
 variable "zone_id" {
     default = "Z00035852NN6D25PW7BUM"
 }
