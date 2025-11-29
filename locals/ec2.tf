@@ -1,17 +1,16 @@
 resource "aws_instance" "roboshop" {
-    count = 3
-    ami           = var.ami_id # Replace with a valid AMI ID for your region
-    instance_type = var.instance_type
-    vpc_security_group_ids = [ aws_security_group.allow_all.id ]
+  count                  = length(var.instances)
+  ami                    = var.ami_id # Replace with a valid AMI ID for your region
+  instance_type          = var.instance_type
+  vpc_security_group_ids = [aws_security_group.allow_all.id]
 
-    tags = {
-      Name = var.instances[count.index]
-    }
+  tags = {
+    Name = local.final_name
   }
-
+}
 resource "aws_security_group" "allow_all" {
-    name        = var.sg_name
-    description = var.sg_desc
+  name        = var.sg_name
+  description = var.sg_desc
 
   ingress {
     from_port   = var.from_port
@@ -27,5 +26,6 @@ resource "aws_security_group" "allow_all" {
     cidr_blocks = var.cidr_block
   }
 
-  tags = var.sg_tags
+
+
 }
